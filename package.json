@@ -1,0 +1,15 @@
+{
+  "name": "scaffolding-node",
+  "version": "1.0.0",
+  "description": "basic structure and tools for future projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "scaffold",
+    "api"
+  ],
+  "author": "Armando Monreal (kei_mx)",
+  "license": "MIT"
+}

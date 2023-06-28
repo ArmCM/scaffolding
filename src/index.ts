@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
 import App from './app';
+import dotenv from 'dotenv';
 
 dotenv.config();
-const port = 3000;
 
-new App(port);
+new App(3000);

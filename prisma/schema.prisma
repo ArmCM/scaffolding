@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model locationmodels {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model locations {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  v          Int      @map("__v")
+  address    String
+  createdAt  DateTime @db.Date
+  email      String?
+  latitude   String   @unique(map: "latitude_1")
+  longitude  String   @unique(map: "longitude_1")
+  mail       String?
+  name       String
+  opinions   String
+  phone      String
+  storeHours String
+  updatedAt  DateTime @db.Date
+}
+
+model users {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
+  createdAt DateTime @db.Date
+  email     String   @unique(map: "email_1")
+  firstname String
+  gender    String
+  lastname  String
+  password  String
+  role      String
+  updatedAt DateTime @db.Date
+}

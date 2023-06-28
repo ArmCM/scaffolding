@@ -1,20 +1,23 @@
 import express, { Application } from 'express';
 import api from './router/api';
 import cors from "./middlewares/cors";
-import Database from "./database/database";
+import { PrismaClient } from '@prisma/client'
+
 class App {
   public app: Application;
   public port: number;
   public host: string;
+  private prisma: PrismaClient;
 
   constructor(port: number) {
     this.app = express();
     this.port = port;
     this.host = process.env.HOST || 'localhost';
+    this.prisma = new PrismaClient();
 
     this.initializeMiddlewares();
     this.initializeRoutes();
-    this.connectToDatabase();
+    this.start();
   }
 
   private initializeMiddlewares() {
@@ -27,17 +30,20 @@ class App {
     this.app.use('/api', api);
   }
 
-  private connectToDatabase() {
-    const database = Database.getInstance();
-
-    database.connect()
+  public start() {
+     this.prisma.$connect()
       .then(() => {
         this.app.listen(this.port, () => {
           console.info(`🌎 Web Server: http://${this.host}:${this.port}\n`);
         });
-      }).catch((error: any) => {
-        console.error('Error al conectar a la base de datos:', error);
-      });
+      })
+    .catch((error) => {
+      console.error('Error al conectar a la base de datos:', error);
+    });
+  }
+
+  public async stop() {
+    await this.prisma.$disconnect();
   }
 }
 

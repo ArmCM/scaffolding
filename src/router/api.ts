@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { getHandler, postHandler } from '../controllers/example';
+import { index, store } from '../controllers/location';
 
 class api {
   public router: Router;
@@ -10,8 +10,8 @@ class api {
   }
 
   private initializeRoutes() {
-    this.router.get('/', getHandler);
-    this.router.post('/', postHandler);
+    this.router.get('/', index);
+    this.router.post('/', store);
   }
 }
 

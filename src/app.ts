@@ -32,14 +32,17 @@ class App {
 
   public start() {
      this.prisma.$connect()
-      .then(() => {
-        this.app.listen(this.port, () => {
-          console.info(`🌎 Web Server: http://${this.host}:${this.port}\n`);
-        });
-      })
-    .catch((error) => {
-      console.error('Error al conectar a la base de datos:', error);
-    });
+         .then(() => {
+           console.info(`🏛️  Conexión a la base de datos establecida`);
+         })
+         .then(() => {
+           this.app.listen(this.port, () => {
+             console.info(`🌎 Web Server: http://${this.host}:${this.port}\n`);
+           });
+         })
+         .catch((error) => {
+           console.error('Error al conectar a la base de datos:', error);
+         });
   }
 
   public async stop() {

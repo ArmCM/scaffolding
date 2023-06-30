@@ -9,11 +9,11 @@ class App {
   public host: string;
   private prisma: PrismaClient;
 
-  constructor(port: number) {
+  constructor(port: number, prisma: PrismaClient) {
     this.app = express();
     this.port = port;
     this.host = process.env.HOST || 'localhost';
-    this.prisma = new PrismaClient();
+    this.prisma = prisma;
 
     this.initializeMiddlewares();
     this.initializeRoutes();

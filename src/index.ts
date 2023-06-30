@@ -1,6 +1,9 @@
 import App from './app';
 import dotenv from 'dotenv';
+import PrismaSingleton from "./database/prismaClient";
 
 dotenv.config();
 
-new App(3000);
+const prisma = PrismaSingleton.getInstance();
+
+new App(3000, prisma);

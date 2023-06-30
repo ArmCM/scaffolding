@@ -1,18 +1,20 @@
-import { Router, Request, Response } from 'express';
-import { index, store } from '../controllers/location';
+import { Router } from 'express';
+import Route from './router';
+import BaseController from '../controllers/BaseController';
 
-class api {
-  public router: Router;
+const router = Router();
+const route = new Route(router);
 
-  constructor() {
-    this.router = Router();
-    this.initializeRoutes();
-  }
+route.register({
+    method: 'get',
+    path: '/',
+    handlers: [ BaseController.index ],
+});
 
-  private initializeRoutes() {
-    this.router.get('/', index);
-    this.router.post('/', store);
-  }
-}
+route.register({
+    method: 'post',
+    path: '/',
+    handlers: [ BaseController.store ],
+});
 
-export default new api().router;
+export default router;

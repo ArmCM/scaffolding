@@ -3,39 +3,65 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model locationmodels {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+model roles {
+  id    Int     @id @default(autoincrement())
+  name  String  @db.VarChar(30)
+  users users[]
 }
 
-model locations {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  v          Int      @map("__v")
-  address    String
-  createdAt  DateTime @db.Date
-  email      String?
-  latitude   String   @unique(map: "latitude_1")
-  longitude  String   @unique(map: "longitude_1")
-  mail       String?
-  name       String
-  opinions   String
-  phone      String
-  storeHours String
-  updatedAt  DateTime @db.Date
+model task_user {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  task_id    Int?
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+
+  @@unique([user_id, task_id], map: "task_user_pk2")
+}
+
+model tasks {
+  id                            Int       @id @default(autoincrement())
+  title                         String    @db.VarChar(50)
+  description                   String    @db.VarChar(100)
+  status                        Int
+  delivery_date                 DateTime  @db.DateTime(0)
+  publishable                   Boolean   @default(false)
+  comments                      String?   @db.Text
+  created_by                    Int
+  owner                         Int
+  tags                          String?   @db.LongText
+  file                          String?   @db.VarChar(500)
+  created_at                    DateTime? @db.DateTime(0)
+  updated_at                    DateTime? @db.DateTime(0)
+  states                        states    @relation(fields: [status], references: [id], onUpdate: Restrict, map: "tasks_states_id_fk")
+  users_tasks_created_byTousers users     @relation("tasks_created_byTousers", fields: [created_by], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tasks_users_id_fk")
+  users_tasks_ownerTousers      users     @relation("tasks_ownerTousers", fields: [owner], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tasks_users_id_fk2")
+
+  @@index([created_by], map: "tasks_users_id_fk")
+  @@index([owner], map: "tasks_users_id_fk2")
+  @@index([status], map: "tasks_states_id_fk")
 }
 
 model users {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int      @map("__v")
-  createdAt DateTime @db.Date
-  email     String   @unique(map: "email_1")
-  firstname String
-  gender    String
-  lastname  String
-  password  String
-  role      String
-  updatedAt DateTime @db.Date
+  id                            Int     @id @default(autoincrement())
+  name                          String  @db.VarChar(60)
+  last_name                     String  @db.VarChar(100)
+  email                         String  @unique(map: "users_email_uindex") @db.VarChar(50)
+  phone                         String? @db.VarChar(20)
+  rol_id                        Int
+  tasks_tasks_created_byTousers tasks[] @relation("tasks_created_byTousers")
+  tasks_tasks_ownerTousers      tasks[] @relation("tasks_ownerTousers")
+  roles                         roles   @relation(fields: [rol_id], references: [id], onUpdate: Restrict, map: "users_roles_id_fk")
+
+  @@index([rol_id], map: "users_roles_id_fk")
+}
+
+model states {
+  id    Int     @id @default(autoincrement())
+  name  String  @db.VarChar(50)
+  tasks tasks[]
 }

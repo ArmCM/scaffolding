@@ -13,55 +13,46 @@ model roles {
   users users[]
 }
 
-model task_user {
-  id         Int       @id @default(autoincrement())
-  user_id    Int?
-  task_id    Int?
-  created_at DateTime? @db.DateTime(0)
-  updated_at DateTime? @db.DateTime(0)
-
-  @@unique([user_id, task_id], map: "task_user_pk2")
+model status {
+  id                         Int     @id @default(autoincrement())
+  name                       String  @db.VarChar(50)
+  tasks_tasks_statusTostatus tasks[] @relation("tasks_statusTostatus")
 }
 
 model tasks {
-  id                            Int       @id @default(autoincrement())
-  title                         String    @db.VarChar(50)
-  description                   String    @db.VarChar(100)
-  status                        Int
-  delivery_date                 DateTime  @db.DateTime(0)
-  publishable                   Boolean   @default(false)
-  comments                      String?   @db.Text
-  created_by                    Int
-  owner                         Int
-  tags                          String?   @db.LongText
-  file                          String?   @db.VarChar(500)
-  created_at                    DateTime? @db.DateTime(0)
-  updated_at                    DateTime? @db.DateTime(0)
-  states                        states    @relation(fields: [status], references: [id], onUpdate: Restrict, map: "tasks_states_id_fk")
-  users_tasks_created_byTousers users     @relation("tasks_created_byTousers", fields: [created_by], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tasks_users_id_fk")
-  users_tasks_ownerTousers      users     @relation("tasks_ownerTousers", fields: [owner], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tasks_users_id_fk2")
+  id                                      Int        @id @default(autoincrement())
+  title                                   String     @db.VarChar(255)
+  description                             String?    @db.VarChar(255)
+  status                                  Int
+  delivery_date                           DateTime   @db.Timestamp(0)
+  visibility                              Int
+  comments                                String?    @db.VarChar(255)
+  created_by                              String     @db.VarChar(100)
+  tags                                    String?    @db.Text
+  file                                    String?    @db.VarChar(255)
+  created_at                              DateTime?  @default(now())
+  updated_at                              DateTime?  @updatedAt
+  status_tasks_statusTostatus             status     @relation("tasks_statusTostatus", fields: [status], references: [id], onUpdate: Restrict, map: "task_status_id_fk")
+  visibility_tasks_visibilityTovisibility visibility @relation("tasks_visibilityTovisibility", fields: [visibility], references: [id], onUpdate: Restrict, map: "task_visibility_id_fk")
 
-  @@index([created_by], map: "tasks_users_id_fk")
-  @@index([owner], map: "tasks_users_id_fk2")
-  @@index([status], map: "tasks_states_id_fk")
+  @@index([status], map: "task_status_id_fk")
+  @@index([visibility], map: "task_visibility_id_fk")
 }
 
 model users {
-  id                            Int     @id @default(autoincrement())
-  name                          String  @db.VarChar(60)
-  last_name                     String  @db.VarChar(100)
-  email                         String  @unique(map: "users_email_uindex") @db.VarChar(50)
-  phone                         String? @db.VarChar(20)
-  rol_id                        Int
-  tasks_tasks_created_byTousers tasks[] @relation("tasks_created_byTousers")
-  tasks_tasks_ownerTousers      tasks[] @relation("tasks_ownerTousers")
-  roles                         roles   @relation(fields: [rol_id], references: [id], onUpdate: Restrict, map: "users_roles_id_fk")
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(60)
+  last_name String  @db.VarChar(100)
+  email     String  @unique(map: "users_email_uindex") @db.VarChar(50)
+  phone     String? @db.VarChar(20)
+  rol_id    Int
+  roles     roles   @relation(fields: [rol_id], references: [id], onUpdate: Restrict, map: "users_roles_id_fk")
 
   @@index([rol_id], map: "users_roles_id_fk")
 }
 
-model states {
-  id    Int     @id @default(autoincrement())
-  name  String  @db.VarChar(50)
-  tasks tasks[]
+model visibility {
+  id                                 Int     @id @default(autoincrement())
+  name                               String? @db.VarChar(80)
+  tasks_tasks_visibilityTovisibility tasks[] @relation("tasks_visibilityTovisibility")
 }

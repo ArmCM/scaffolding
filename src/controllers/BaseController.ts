@@ -1,35 +1,63 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
+import BaseModel from "../models/baseModel";
+import State from "../models/state";
+import User from "../models/user";
+import Visibility from "../models/visibility";
 
 const prisma = new PrismaClient();
 
 class BaseController {
   public async index(request: Request, response: Response) {
-    const tasks = await prisma.tasks.findMany();
-    response.status(201).json(tasks);
+    const page = parseInt(request.query.page as string) || 1;
+
+    const  tasks = await BaseModel.paginate(page).all();
+
+    return response.status(tasks.code).json({ tasks });
   }
 
-  public create (request: Request, response: Response) {
-
-  }
-
-  public store (request: Request, response: Response) {
-
-  }
-
-  public show (request: Request, response: Response) {
+  public async create (request: Request, response: Response) {
 
   }
 
-  public edit (request: Request, response: Response) {
+  public async store (request: Request, response: Response) {
+    const status: any = await State.findById(request.body.status);
+    const createdBy: any = await User.findOne();
+    const visibility: any = await Visibility.findByName(request.body.visibility);
+
+    await BaseModel.create({
+      title: request.body.title,
+      description: request.body.description,
+      status: status.id,
+      delivery_date: new Date(request.body.delivery_date),
+      publishable: request.body.publishable,
+      comments: request.body.comments,
+      created_by: String(createdBy.id),
+      tags: request.body.tags,
+      file: request.body.file,
+      visibility: visibility.id,
+    });
+
+    response.status(201).json();
+  }
+
+  public async show (request: Request, response: Response) {
+    const taskId = parseInt(request.params.id);
+
+    const task = await BaseModel.findOne(taskId);
+
+    response.status(task.code).json({ task: task });
+  }
+
+  public async edit (request: Request, response: Response) {
 
   }
 
-  public update (request: Request, response: Response) {
+  public async update (request: Request, response: Response) {
 
   }
 
-  public destroy (request: Request, response: Response) {
+  public async destroy (request: Request, response: Response) {
 
   }
 }

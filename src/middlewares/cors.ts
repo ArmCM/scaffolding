@@ -4,8 +4,8 @@ import cors, { CorsOptions } from 'cors';
 class Cors {
     public static configure(): RequestHandler {
         const options: CorsOptions = {
-            origin: '*', // Ajusta las opciones según tus necesidades
-            methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Ajusta los métodos permitidos según tus necesidades
+            origin: '*',
+            methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
         };
 
         return cors(options);

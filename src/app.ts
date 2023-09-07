@@ -33,7 +33,7 @@ class App {
   public start() {
      this.prisma.$connect()
          .then(() => {
-           console.info(`🏛️  Conexión a la base de datos establecida`);
+           console.info(`🏛  Conexión a la base de datos establecida`);
          })
          .then(() => {
            this.app.listen(this.port, () => {

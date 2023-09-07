@@ -11,7 +11,7 @@ using a basic structure of directories
 - [Typescript](https://www.typescriptlang.org/docs/)
 - [Express](https://expressjs.com/en/4x/api.html)
 
-## Instructions for run this example
+# Instructions for run this example
 
 - Create a local database to use
 - Define the URL connection in file `.env` replace the values to own configuration values
@@ -31,7 +31,7 @@ Create tables in DB: `npm run db-push` (use file from _prisma/schema.prisma_)
 
 Run seeders: `npm run db-seed`
 
-# Test example endpoints
+## Test example endpoints
 
 get all data:
 
@@ -43,9 +43,7 @@ get data by id:
 
 store data:
 
-```json
-POST: http://localhost:3000/api/example
-```
+`POST: http://localhost:3000/api/example`
 
 ```json
 Body
@@ -63,7 +61,7 @@ Body
 }
 ```
 
-## Instructions for create and run a new app
+# Instructions for create and run a new app
 
 WIP
 

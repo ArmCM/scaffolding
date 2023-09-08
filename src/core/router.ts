@@ -32,14 +32,14 @@ class Route {
     }
 
     private validationMiddleware(validators: ValidationChain[]) {
-        return async (req: Request, res: Response, next: NextFunction) => {
+        return async (request: Request, response: Response, next: NextFunction) => {
             try {
-                await Promise.all(validators.map((validator) => validator.run(req)));
+                await Promise.all(validators.map((validator) => validator.run(request.body)));
 
-                const errors = validationResult(req);
+                const errors = validationResult(request);
 
                 if (!errors.isEmpty()) {
-                    return res.status(422).json({ errors: errors.array() });
+                    return response.status(422).json({ errors: errors.array() });
                 }
 
                 next();

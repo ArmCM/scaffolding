@@ -1,6 +1,6 @@
 import PrismaSingleton from "../database/prismaClient";
 
-class BaseModel {
+class BaseService {
     private prisma;
     private page: number;
 
@@ -77,4 +77,4 @@ class BaseModel {
     }
 }
 
-export default new BaseModel();
+export default new BaseService();

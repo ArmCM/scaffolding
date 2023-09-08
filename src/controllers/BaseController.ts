@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
-import BaseModel from "../models/baseModel";
-import State from "../models/state";
-import User from "../models/user";
-import Visibility from "../models/visibility";
+import BaseService from "../services/baseService";
+import State from "../services/state";
+import User from "../services/user";
+import Visibility from "../services/visibility";
 
 const prisma = new PrismaClient();
 
 class BaseController {
   public async index(request: Request, response: Response) {
-    const page = parseInt(request.query.page as string) || 1;
+    const page = parseInt(String(request.query.page)) || 1;
 
-    const  tasks = await BaseModel.paginate(page).all();
+    const  tasks = await BaseService.paginate(page).all();
 
     return response.status(tasks.code).json({ tasks });
   }
@@ -25,7 +25,7 @@ class BaseController {
     const createdBy: any = await User.findOne();
     const visibility: any = await Visibility.findByName(request.body.visibility);
 
-    await BaseModel.create({
+    await BaseService.create({
       title: request.body.title,
       description: request.body.description,
       status: status.id,
@@ -44,7 +44,7 @@ class BaseController {
   public async show (request: Request, response: Response) {
     const taskId = parseInt(request.params.id);
 
-    const task = await BaseModel.findOne(taskId);
+    const task = await BaseService.findOne(taskId);
 
     response.status(task.code).json({ task: task });
   }
@@ -53,7 +53,7 @@ class BaseController {
 
   }
 
-  public async update (request: Request, response: Response) {
+  public async update (request: Request, response: Response)   {
 
   }
 

@@ -1,5 +1,5 @@
 import express, { Application } from 'express';
-import api from './router/api';
+import api from './router/v1/api';
 import cors from "./middlewares/cors";
 import { PrismaClient } from '@prisma/client'
 
@@ -27,7 +27,7 @@ class App {
   }
 
   private initializeRoutes() {
-    this.app.use('/api', api);
+    this.app.use('/api/v1', api);
   }
 
   public start() {

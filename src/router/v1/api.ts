@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import Route from './router';
-import BaseController from '../controllers/BaseController';
-import { exampleValidationRequest } from "../controllers/FormRequest/exampleValidationRequest";
+import Route from '../../core/router';
+import BaseController from '../../controllers/BaseController';
+import { exampleValidationRequest } from "../../controllers/FormRequest/exampleValidationRequest";
 
 const router = Router();
 const route = new Route(router);
@@ -48,4 +48,5 @@ route.register({
     path: '/example/id',
     handlers: [ BaseController.destroy ],
 });
+
 export default router;

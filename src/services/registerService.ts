@@ -1,5 +1,5 @@
-import AuthenticateService from "./AuthenticateService";
-import UserService from "./userService";
+import AuthenticateService from './AuthenticateService';
+import UserService from './userService';
 
 class RegisterService {
     public async create(name: string, last_name: string, email: string, password: string)

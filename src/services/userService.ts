@@ -1,6 +1,6 @@
-import UserExists from "../Exceptions/UserExists";
-import UserNotFound from "../Exceptions/UserNotFound";
-import Prisma from "../core/prismaClient";
+import UserExists from '../Exceptions/UserExists';
+import UserNotFound from '../Exceptions/UserNotFound';
+import Prisma from '../core/prismaClient';
 
 class UserService {
     private prisma;
@@ -11,7 +11,7 @@ class UserService {
 
     public async findByEmail(email: string)
     {
-        const user = await this.prisma.users.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: {
                 email: email
             },
@@ -26,7 +26,7 @@ class UserService {
 
     public async findById(userId: number)
     {
-        const user = await this.prisma.users.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: {
                 id: userId
             },
@@ -41,14 +41,14 @@ class UserService {
 
     public async create(params: any)
     {
-        return await this.prisma.users.create({
+        return await this.prisma.user.create({
             data: params,
         });
     }
 
     public async checkIfUserExists(email: string)
     {
-        const user = await this.prisma.users.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: {
                 email: email
             }

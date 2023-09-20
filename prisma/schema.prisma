@@ -7,52 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model roles {
-  id    Int     @id @default(autoincrement())
-  name  String  @db.VarChar(30)
-  users users[]
-}
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(60)
+  last_name  String   @db.VarChar(100)
+  email      String   @unique(map: "users_email_uindex") @db.VarChar(50)
+  password   String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-model status {
-  id                         Int     @id @default(autoincrement())
-  name                       String  @db.VarChar(50)
-  tasks_tasks_statusTostatus tasks[] @relation("tasks_statusTostatus")
-}
-
-model tasks {
-  id                                      Int        @id @default(autoincrement())
-  title                                   String     @db.VarChar(255)
-  description                             String?    @db.VarChar(255)
-  status                                  Int
-  delivery_date                           DateTime   @db.Timestamp(0)
-  visibility                              Int
-  comments                                String?    @db.VarChar(255)
-  created_by                              String     @db.VarChar(100)
-  tags                                    String?    @db.Text
-  file                                    String?    @db.VarChar(255)
-  created_at                              DateTime?  @default(now())
-  updated_at                              DateTime?  @updatedAt
-  status_tasks_statusTostatus             status     @relation("tasks_statusTostatus", fields: [status], references: [id], onUpdate: Restrict, map: "task_status_id_fk")
-  visibility_tasks_visibilityTovisibility visibility @relation("tasks_visibilityTovisibility", fields: [visibility], references: [id], onUpdate: Restrict, map: "task_visibility_id_fk")
-
-  @@index([status], map: "task_status_id_fk")
-  @@index([visibility], map: "task_visibility_id_fk")
-}
-
-model users {
-  id        Int     @id @default(autoincrement())
-  name      String  @db.VarChar(60)
-  last_name String  @db.VarChar(100)
-  email     String  @unique(map: "users_email_uindex") @db.VarChar(50)
-  phone     String? @db.VarChar(20)
-  rol_id    Int
-  roles     roles   @relation(fields: [rol_id], references: [id], onUpdate: Restrict, map: "users_roles_id_fk")
-
-  @@index([rol_id], map: "users_roles_id_fk")
-}
-
-model visibility {
-  id                                 Int     @id @default(autoincrement())
-  name                               String? @db.VarChar(80)
-  tasks_tasks_visibilityTovisibility tasks[] @relation("tasks_visibilityTovisibility")
+  @@map("users")
 }

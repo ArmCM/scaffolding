@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
-import AuthExceptions from "../Exceptions/AuthExceptions";
+import jwt from 'jsonwebtoken';
+import AuthExceptions from '../Exceptions/AuthExceptions';
 
 interface TokenOptions {
     expiration?: string;
@@ -24,7 +24,7 @@ class AuthenticateService {
         const payload = {
             user_id: user.id,
             email: user.email,
-        }
+        };
 
         const secretKey = String(process.env.SECRET_KEY);
         const expiresIn = '1h';
@@ -45,17 +45,16 @@ class AuthenticateService {
         }
     }
 
-    public verifyToken(token: any)
+    public verifyToken(token: string)
     {
         try {
             const decodedToken: any = jwt.verify(token, String(process.env.SECRET_KEY));
 
-            return { userId: decodedToken.user_id, email: decodedToken.email }
+            return { userId: decodedToken.user_id, email: decodedToken.email };
 
         } catch (error: any) {
             throw new AuthExceptions(error.message);
         }
-
     }
 }
 

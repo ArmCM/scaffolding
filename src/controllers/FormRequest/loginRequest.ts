@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import UserService from "../../services/userService";
+import UserService from '../../services/userService';
 
 export function loginRequest() {
     return [
@@ -7,7 +7,7 @@ export function loginRequest() {
             .trim()
             .notEmpty().withMessage('email is required')
             .isEmail()
-            .custom(async email => { await UserService.findByEmail(email) }),
+            .custom(async email => { await UserService.findByEmail(email); }),
 
         body('password')
             .trim()

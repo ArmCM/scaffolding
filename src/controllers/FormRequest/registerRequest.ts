@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import UserService from "../../services/userService";
+import UserService from '../../services/userService';
 
 export function registerRequest() {
     return [
@@ -21,7 +21,7 @@ export function registerRequest() {
             .trim()
             .notEmpty().withMessage('email is required')
             .isEmail()
-            .custom(async email => { await UserService.checkIfUserExists(email) }),
+            .custom(async email => { await UserService.checkIfUserExists(email); }),
 
         body('password')
             .trim()

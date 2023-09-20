@@ -1,6 +1,6 @@
-import {Request, Response} from "express";
-import UserService from "../../services/userService";
-import AuthenticateService from "../../services/AuthenticateService";
+import {Request, Response} from 'express';
+import UserService from '../../services/userService';
+import AuthenticateService from '../../services/AuthenticateService';
 
 class LoginController {
     public async signedLogin(request: Request, response: Response) {

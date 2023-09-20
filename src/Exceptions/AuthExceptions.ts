@@ -6,12 +6,11 @@ class AuthExceptions extends Error {
         super(message);
         this.success = false;
         this.status = 401;
-        this.message = message ?? 'Error en la autenticación.';
+        this.message = message ?? "Error en la autenticación.";
     }
 
-    public invalidPassword()
-    {
-        this.message = 'Credenciales inválidas.';
+    public invalidPassword() {
+        this.message = "Credenciales inválidas.";
 
         return this;
     }

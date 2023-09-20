@@ -6,7 +6,7 @@ class UserNotFound extends Error {
         super(message);
         this.success = false;
         this.status = 400;
-        this.message = message ?? 'El usuario no fue encontrado.';
+        this.message = message ?? "El usuario no fue encontrado.";
     }
 }
 

@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import AuthenticateService from '../../services/AuthenticateService';
-import RegisterService from '../../services/registerService';
+import { Request, Response } from "express";
+import AuthenticateService from "../../services/AuthenticateService";
+import RegisterService from "../../services/registerService";
 
 class RegisterController {
     public async store(request: Request, response: Response) {

@@ -1,10 +1,9 @@
-import express, { Application } from 'express';
-import 'express-async-errors';
-import api from './routes/v1/api';
-import cors from './middlewares/cors';
-import { PrismaClient } from '@prisma/client';
-import errorHandler from './middlewares/ErrorHandler';
-
+import express, { Application } from "express";
+import "express-async-errors";
+import api from "./routes/v1/api";
+import cors from "./middlewares/cors";
+import { PrismaClient } from "@prisma/client";
+import errorHandler from "./middlewares/ErrorHandler";
 
 class App {
     public app: Application;
@@ -15,7 +14,7 @@ class App {
     constructor(port: number, prisma: PrismaClient) {
         this.app = express();
         this.port = port;
-        this.host = process.env.HOST || 'localhost';
+        this.host = process.env.HOST || "localhost";
         this.prisma = prisma;
 
         this.initializeMiddlewares();
@@ -31,7 +30,7 @@ class App {
     }
 
     private initializeRoutes() {
-        this.app.use('/api/v1', api);
+        this.app.use("/api/v1", api);
     }
 
     private initializeCustomErrorHandler() {
@@ -39,20 +38,23 @@ class App {
     }
 
     public start() {
-        this.prisma.$connect()
+        this.prisma
+            .$connect()
             .then(() => {
                 /* eslint-disable no-console*/
-                console.info('🏛  Established connection to the database.');
+                console.info("🏛  Established connection to the database.");
             })
             .then(() => {
                 this.app.listen(this.port, () => {
                     /* eslint-disable no-console*/
-                    console.info(`🌎 Web Server: http://${this.host}:${this.port}\n`);
+                    console.info(
+                        `🌎 Web Server: http://${this.host}:${this.port}\n`,
+                    );
                 });
             })
             .catch((error) => {
                 /* eslint-disable no-console*/
-                console.error('Error connecting to the database:', error);
+                console.error("Error connecting to the database:", error);
             });
     }
 

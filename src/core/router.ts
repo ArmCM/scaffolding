@@ -1,9 +1,8 @@
-import { Router, RequestHandler } from 'express';
-import { ValidationChain, validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import { Router, RequestHandler } from "express";
+import { ValidationChain, validationResult } from "express-validator";
+import { Request, Response, NextFunction } from "express";
 
-
-type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
+type HttpMethod = "get" | "post" | "put" | "patch" | "delete";
 
 interface RouteDefinition {
     method: HttpMethod;
@@ -21,29 +20,42 @@ class Route {
         this.router = router;
     }
 
-    public register({ method, path, handlers, validators = emptyValidators }: RouteDefinition): void
-    {
-        const allValidators = validators?.flat()
+    public register({
+        method,
+        path,
+        handlers,
+        validators = emptyValidators,
+    }: RouteDefinition): void {
+        const allValidators = validators?.flat();
         this.router[method](
             path,
             allValidators,
             this.validationMiddleware(allValidators),
-            handlers
+            handlers,
         );
     }
 
     private validationMiddleware(validators: ValidationChain[]) {
-        return async (request: Request, response: Response, next: NextFunction) => {
-
+        return async (
+            request: Request,
+            response: Response,
+            next: NextFunction,
+        ) => {
             const requestValidator = request.body ?? request.headers;
 
             try {
-                await Promise.all(validators.map((validator) => validator.run(requestValidator)));
+                await Promise.all(
+                    validators.map((validator) =>
+                        validator.run(requestValidator),
+                    ),
+                );
 
                 const errors = validationResult(request);
 
                 if (!errors.isEmpty()) {
-                    return response.status(422).json({ errors: errors.array() });
+                    return response
+                        .status(422)
+                        .json({ errors: errors.array() });
                 }
 
                 next();

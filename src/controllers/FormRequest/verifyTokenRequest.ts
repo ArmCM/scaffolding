@@ -1,10 +1,12 @@
-import { header } from 'express-validator';
+import { header } from "express-validator";
 
 export function verifyTokenRequest() {
     return [
-        header('Authorization')
+        header("Authorization")
             .trim()
-            .notEmpty().withMessage('Token is required.')
-            .isString().withMessage('Token must be a string.')
+            .notEmpty()
+            .withMessage("Token is required.")
+            .isString()
+            .withMessage("Token must be a string."),
     ];
 }

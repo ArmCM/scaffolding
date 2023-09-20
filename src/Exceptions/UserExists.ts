@@ -6,7 +6,7 @@ class UserExists extends Error {
         super(message);
         this.success = false;
         this.status = 400;
-        this.message = message ?? 'el usuario ya existe';
+        this.message = message ?? "el usuario ya existe";
     }
 }
 

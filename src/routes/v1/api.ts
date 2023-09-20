@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import Route from '../../core/router';
-import HomeController from '../../controllers/HomeController';
-import LoginController from '../../controllers/Auth/LoginController';
-import RegisterController from '../../controllers/Auth/RegisterController';
-import {loginRequest} from '../../controllers/FormRequest/loginRequest';
-import {registerRequest} from '../../controllers/FormRequest/registerRequest';
+import { Router } from "express";
+import Route from "../../core/router";
+import HomeController from "../../controllers/HomeController";
+import LoginController from "../../controllers/Auth/LoginController";
+import RegisterController from "../../controllers/Auth/RegisterController";
+import { loginRequest } from "../../controllers/FormRequest/loginRequest";
+import { registerRequest } from "../../controllers/FormRequest/registerRequest";
 
 const router = Router();
 const route = new Route(router);
@@ -16,9 +16,9 @@ const route = new Route(router);
 */
 
 route.register({
-    method: 'get',
-    path: '/',
-    handlers: [ HomeController.index ],
+    method: "get",
+    path: "/",
+    handlers: [HomeController.index],
 });
 
 /*
@@ -28,17 +28,17 @@ route.register({
 */
 
 route.register({
-    method: 'post',
-    path: '/login',
+    method: "post",
+    path: "/login",
     validators: [loginRequest()],
-    handlers: [ LoginController.signedLogin ],
+    handlers: [LoginController.signedLogin],
 });
 
 route.register({
-    method: 'post',
-    path: '/register',
+    method: "post",
+    path: "/register",
     validators: [registerRequest()],
-    handlers: [ RegisterController.store ],
+    handlers: [RegisterController.store],
 });
 
 export default router;

@@ -27,7 +27,7 @@ route.register({
 route.register({
     method: 'post',
     path: '/example',
-    validators: exampleValidationRequest(), // optional
+    validators: [exampleValidationRequest()],
     handlers: [ BaseController.store ],
 });
 

@@ -65,3 +65,18 @@ Body
 
 WIP
 
+
+# Documentation
+
+## Routes
+
+```typescript
+route.register({
+    method: 'valid-verb',
+    path: '/name-route',
+    validators: [customValidation(), customValidationTwo()],
+    handlers: [ ExampleController.method ],
+});
+```
+
+validators param use [Express validator](https://express-validator.github.io/docs/guides/validation-chain): can add validations body request, headers, query params.

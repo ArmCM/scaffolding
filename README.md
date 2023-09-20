@@ -7,19 +7,18 @@ using a basic structure of directories
 
 ### Software stack
 
-- [Prisma](https://www.prisma.io/docs/concepts)
-- [Typescript](https://www.typescriptlang.org/docs/)
-- [Express](https://expressjs.com/en/4x/api.html)
+-   [Prisma](https://www.prisma.io/docs/concepts)
+-   [Typescript](https://www.typescriptlang.org/docs/)
+-   [Express](https://expressjs.com/en/4x/api.html)
 
 # Instructions for run this example
 
-- Create a local database to use
-- Define the URL connection in file `.env` replace the values to own configuration values
-
+-   Create a local database to use
+-   Define the URL connection in file `.env` replace the values to own configuration values
 
 `DATABASE_URL={mysql}://{user}:{password}@{localhost}:{3306}/{database_name}`
 
-- Run the next commands
+-   Run the next commands
 
 Install dependencies: `npm install`
 
@@ -65,17 +64,16 @@ Body
 
 WIP
 
-
 # Documentation
 
 ## Routes
 
 ```typescript
 route.register({
-    method: 'valid-verb',
-    path: '/name-route',
+    method: "valid-verb",
+    path: "/name-route",
     validators: [customValidation(), customValidationTwo()],
-    handlers: [ ExampleController.method ],
+    handlers: [ExampleController.method],
 });
 ```
 

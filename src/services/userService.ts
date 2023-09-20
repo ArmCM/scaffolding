@@ -9,11 +9,10 @@ class UserService {
         this.prisma = Prisma.getInstance();
     }
 
-    public async findByEmail(email: string)
-    {
-        const user = await this.prisma.users.findUnique({
+    public async findByEmail(email: string) {
+        const user = await this.prisma.user.findUnique({
             where: {
-                email: email
+                email: email,
             },
         });
 
@@ -24,11 +23,10 @@ class UserService {
         return user;
     }
 
-    public async findById(userId: number)
-    {
-        const user = await this.prisma.users.findUnique({
+    public async findById(userId: number) {
+        const user = await this.prisma.user.findUnique({
             where: {
-                id: userId
+                id: userId,
             },
         });
 
@@ -39,19 +37,17 @@ class UserService {
         return user;
     }
 
-    public async create(params: any)
-    {
-        return await this.prisma.users.create({
+    public async create(params: any) {
+        return await this.prisma.user.create({
             data: params,
         });
     }
 
-    public async checkIfUserExists(email: string)
-    {
-        const user = await this.prisma.users.findUnique({
+    public async checkIfUserExists(email: string) {
+        const user = await this.prisma.user.findUnique({
             where: {
-                email: email
-            }
+                email: email,
+            },
         });
 
         if (user) {

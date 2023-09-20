@@ -10,6 +10,7 @@ declare global {
             DB_PASSWORD: string;
             DB_USER: string;
             DATABASE_URL: string;
+            SECRET_KEY: string;
         }
     }
 }

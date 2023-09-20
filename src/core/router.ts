@@ -9,10 +9,10 @@ interface RouteDefinition {
     method: HttpMethod;
     path: string;
     handlers: RequestHandler[];
-    validators?: ValidationChain[];
+    validators?: ValidationChain[][];
 }
 
-const emptyValidators: ValidationChain[] = [];
+const emptyValidators: ValidationChain[][] = [];
 
 class Route {
     private readonly router: Router;
@@ -23,18 +23,22 @@ class Route {
 
     public register({ method, path, handlers, validators = emptyValidators }: RouteDefinition): void
     {
+        const allValidators = validators?.flat()
         this.router[method](
             path,
-            validators,
-            this.validationMiddleware(validators),
+            allValidators,
+            this.validationMiddleware(allValidators),
             handlers
         );
     }
 
     private validationMiddleware(validators: ValidationChain[]) {
         return async (request: Request, response: Response, next: NextFunction) => {
+
+            const requestValidator = request.body ?? request.headers;
+
             try {
-                await Promise.all(validators.map((validator) => validator.run(request.body)));
+                await Promise.all(validators.map((validator) => validator.run(requestValidator)));
 
                 const errors = validationResult(request);
 
